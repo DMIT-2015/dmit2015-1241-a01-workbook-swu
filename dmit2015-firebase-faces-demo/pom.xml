@@ -19,6 +19,74 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>14.0.4</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+            <artifactId>owasp-java-html-sanitizer</artifactId>
+            <version>20240325.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>primeflex</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+
+        <!-- Dependencies for UI Testing using Selenium WebDriver -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>selenium-jupiter</artifactId>
+            <version>5.1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.23.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.26.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
@@ -70,6 +138,44 @@
 
     <build>
         <plugins>
+            <plugin>
+                <!-- https://docs.wildfly.org/bootablejar/#wildfly_jar_dev_mode -->
+                <!-- mvn wildfly-jar:dev-watch -->
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-jar-maven-plugin</artifactId>
+                <version>11.0.2.Final</version>
+                <configuration>
+                    <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#33.0.1.Final</feature-pack-location>
+                    <layers>
+                        <!-- https://docs.wildfly.org/33/Bootable_Guide.html#wildfly_layers -->
+                        <layer>cloud-server</layer>
+                        <layer>jsf</layer>
+                        <layer>microprofile-config</layer>
+                    </layers>
+                    <excluded-layers>
+                        <layer>deployment-scanner</layer>
+                    </excluded-layers>
+                    <plugin-options>
+                        <jboss-fork-embedded>true</jboss-fork-embedded>
+                    </plugin-options>
+                    <!-- https://docs.wildfly.org/bootablejar/#wildfly_jar_enabling_debug -->
+                    <jvmArguments>
+                        <!-- https://www.jetbrains.com/help/idea/attaching-to-local-process.html#attach-to-local -->
+                        <!-- To attach a debugger to the running server from IntelliJ IDEA
+                            1. From the main menu, choose `Run | Attach to Process`
+                            2. IntelliJ IDEA will show the list of running local processes. Select the process with the `xxx-bootable.jar` name to attach to.
+                        -->
+                        <arg>-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n</arg>
+                    </jvmArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
