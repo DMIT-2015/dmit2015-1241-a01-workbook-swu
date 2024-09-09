@@ -1,9 +1,9 @@
 # DMIT2015 Fall 2024 Term Workbook Repository
 
-## your name here
+## Sam Wu
 
-## your Github Account id
+## swunait
 
-This repository for your classroom demonstrations and practice. 
-Assignment work submitted within this repository will NOT be evaluated.
+This workbook will be used to save classroom demonstrations. 
+There will be nothing in the repository that is for evaluation marks.
 
