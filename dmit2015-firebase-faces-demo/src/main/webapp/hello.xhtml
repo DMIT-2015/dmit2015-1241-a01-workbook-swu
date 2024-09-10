@@ -45,6 +45,20 @@
                             >
                             </p:commandButton>
                         </div>
+                        <div class="field">
+                            <p:commandButton value="Add Username"
+                                             action="#{helloView.onAddUsername()}"
+                                             update=":messages :growl @form dataTable"
+                            >
+                            </p:commandButton>
+                        </div>
+                        <div class="field">
+                            <p:commandButton value="Clear"
+                                             action="#{helloView.onClear()}"
+                                             update=":messages :growl @form dataTable"
+                            >
+                            </p:commandButton>
+                        </div>
 
                     </div>
 
@@ -54,71 +68,24 @@
 
         </h:form>
 
-        <!--        <h:form prependId="false">-->
-        <!--            <div class="card">-->
-        <!--                <p:dataTable id="dataTable" -->
-        <!--                             value="TODO: EL value expression to get the collection of objects to iterate"-->
-        <!--                             var="currentItem"-->
-        <!--                             reflow="true"-->
-        <!--                             selection="TODO: optional EL value expression for the object to bind to"-->
-        <!--                             rowKey="#{currentItem.id}"-->
-        <!--                             paginator="true" rows="10"-->
-        <!--                             paginatorPosition="bottom">-->
+        <h:form prependId="false">
+            <div class="card">
+                <p:dataTable id="dataTable"
+                             value="#{helloView.usernameList}"
+                             var="currentItem"
+                             reflow="true"
+                             paginator="true" rows="5"
+                             paginatorPosition="bottom">
 
-        <!--                    <p:column headerText="String Value">-->
-        <!--                        <h:outputText value="#{currentItem.propertyName}" />-->
-        <!--                    </p:column>-->
+                    <p:column headerText="Username">
+                        <h:outputText value="#{currentItem}" />
+                    </p:column>
 
-        <!--                    <p:column headerText="Date Value">-->
-        <!--                        <h:outputText value="#{currentItem.propertyName}">-->
-        <!--                            <f:convertDateTime type="localDate" pattern="MM/dd/yyyy"/>-->
-        <!--                        </h:outputText>-->
-        <!--                    </p:column>-->
+                </p:dataTable>
 
-        <!--                    <p:column headerText="Currency Value">-->
-        <!--                        <h:outputText value="#{currentItem.propertyName}">-->
-        <!--                            <f:convertNumber type="currency" locale="en_CA"/>-->
-        <!--                        </h:outputText>-->
-        <!--                    </p:column>-->
+            </div>
 
-        <!--                    <p:column headerText="Action">-->
-        <!--                        <p:commandButton-->
-        <!--                                id="updateButton"-->
-        <!--                                value="Update"-->
-        <!--                                icon="pi pi-save"-->
-        <!--                                styleClass="ui-button-success"-->
-        <!--                                action="TODO Set EL-Method expression"-->
-        <!--                                update=":messages :growl dataTable"-->
-        <!--                        >-->
-        <!--                            <f:setPropertyActionListener target="TODO: Set EL-value expression"-->
-        <!--                                                         value="#{currentItem}" />-->
-        <!--                        </p:commandButton>-->
-
-        <!--                        <p:commandButton-->
-        <!--                                id="deleteButton"-->
-        <!--                                value="Delete"-->
-        <!--                                icon="pi pi-trash"-->
-        <!--                                styleClass="ui-button-danger"-->
-        <!--                                process="@this"-->
-        <!--                                action="TODO: Set EL-Method expression"-->
-        <!--                                update=":messages :growl dataTable"-->
-        <!--                        >-->
-        <!--                            <f:setPropertyActionListener target="TODO: Set EL-value expression"-->
-        <!--                                                         value="#{currentItem}" />-->
-        <!--                            <p:confirm header="Delete Confirmation" message="Do you want to delete this record?" icon="pi pi-info-circle"/>-->
-        <!--                        </p:commandButton>-->
-        <!--                    </p:column>-->
-
-        <!--                </p:dataTable>-->
-
-        <!--                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">-->
-        <!--                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>-->
-        <!--                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />-->
-        <!--                </p:confirmDialog>-->
-
-        <!--            </div>-->
-
-        <!--        </h:form>-->
+        </h:form>
 
     </ui:define>
 
