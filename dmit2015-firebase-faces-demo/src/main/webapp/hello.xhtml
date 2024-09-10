@@ -1,0 +1,125 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Hello Faces"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Hello Faces</h1>
+
+        <!--Display all messages in FacesContext -->
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+        <p:growl id="growl"/>
+
+        <h:form prependId="false">
+            <p:focus context="formPanel"/>
+
+            <p:panel id="formPanel" header="Form Panel">
+                <div class="ui-fluid">
+
+                    <div class="field">
+                        <p:outputLabel for="@next" >Your name?</p:outputLabel>
+                        <p:inputText id="username" value="#{helloView.username}"/>
+                    </div>
+
+                    <div class="formgroup-inline">
+                        <div class="field">
+                            <p:commandButton value="Submit"
+                                             action="#{helloView.onSubmit()}"
+                                             update=":messages :growl @form"
+                            >
+                            </p:commandButton>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </p:panel>
+
+        </h:form>
+
+        <!--        <h:form prependId="false">-->
+        <!--            <div class="card">-->
+        <!--                <p:dataTable id="dataTable" -->
+        <!--                             value="TODO: EL value expression to get the collection of objects to iterate"-->
+        <!--                             var="currentItem"-->
+        <!--                             reflow="true"-->
+        <!--                             selection="TODO: optional EL value expression for the object to bind to"-->
+        <!--                             rowKey="#{currentItem.id}"-->
+        <!--                             paginator="true" rows="10"-->
+        <!--                             paginatorPosition="bottom">-->
+
+        <!--                    <p:column headerText="String Value">-->
+        <!--                        <h:outputText value="#{currentItem.propertyName}" />-->
+        <!--                    </p:column>-->
+
+        <!--                    <p:column headerText="Date Value">-->
+        <!--                        <h:outputText value="#{currentItem.propertyName}">-->
+        <!--                            <f:convertDateTime type="localDate" pattern="MM/dd/yyyy"/>-->
+        <!--                        </h:outputText>-->
+        <!--                    </p:column>-->
+
+        <!--                    <p:column headerText="Currency Value">-->
+        <!--                        <h:outputText value="#{currentItem.propertyName}">-->
+        <!--                            <f:convertNumber type="currency" locale="en_CA"/>-->
+        <!--                        </h:outputText>-->
+        <!--                    </p:column>-->
+
+        <!--                    <p:column headerText="Action">-->
+        <!--                        <p:commandButton-->
+        <!--                                id="updateButton"-->
+        <!--                                value="Update"-->
+        <!--                                icon="pi pi-save"-->
+        <!--                                styleClass="ui-button-success"-->
+        <!--                                action="TODO Set EL-Method expression"-->
+        <!--                                update=":messages :growl dataTable"-->
+        <!--                        >-->
+        <!--                            <f:setPropertyActionListener target="TODO: Set EL-value expression"-->
+        <!--                                                         value="#{currentItem}" />-->
+        <!--                        </p:commandButton>-->
+
+        <!--                        <p:commandButton-->
+        <!--                                id="deleteButton"-->
+        <!--                                value="Delete"-->
+        <!--                                icon="pi pi-trash"-->
+        <!--                                styleClass="ui-button-danger"-->
+        <!--                                process="@this"-->
+        <!--                                action="TODO: Set EL-Method expression"-->
+        <!--                                update=":messages :growl dataTable"-->
+        <!--                        >-->
+        <!--                            <f:setPropertyActionListener target="TODO: Set EL-value expression"-->
+        <!--                                                         value="#{currentItem}" />-->
+        <!--                            <p:confirm header="Delete Confirmation" message="Do you want to delete this record?" icon="pi pi-info-circle"/>-->
+        <!--                        </p:commandButton>-->
+        <!--                    </p:column>-->
+
+        <!--                </p:dataTable>-->
+
+        <!--                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">-->
+        <!--                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>-->
+        <!--                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />-->
+        <!--                </p:confirmDialog>-->
+
+        <!--            </div>-->
+
+        <!--        </h:form>-->
+
+    </ui:define>
+
+</ui:composition>
