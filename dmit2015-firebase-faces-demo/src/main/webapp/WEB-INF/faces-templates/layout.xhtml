@@ -47,14 +47,14 @@
 
                 <p:menuitem value="Hello"  url="#{request.contextPath}/hello.xhtml"/>
 
-                <p:menuitem value="Weather"  url="#{request.contextPath}/weather/weather.xhtml"/>
+<!--                <p:menuitem value="Weather"  url="#{request.contextPath}/weather/weather.xhtml"/>-->
 
-                <!--                <p:submenu label="Students" icon="pi pi-file">-->
-                <!--                    <p:menuitem value="List" icon="pi pi-list"-->
-                <!--                                url="#{request.contextPath}/students/index.xhtml"/>-->
-                <!--                    <p:menuitem value="Create" icon="pi pi-plus"-->
-                <!--                                url="#{request.contextPath}/students/create.xhtml"/>-->
-                <!--                </p:submenu>-->
+                <p:submenu label="Weather" icon="pi pi-file">
+                    <p:menuitem value="Blazor WeatherForecast" icon="pi pi-list"
+                                url="#{request.contextPath}/weather/weather.xhtml"/>
+                    <p:menuitem value="Firebase CRUD" icon="pi pi-plus"
+                                url="#{request.contextPath}/weather/crud.xhtml"/>
+                </p:submenu>
 
             </p:menubar>
         </h:form>
