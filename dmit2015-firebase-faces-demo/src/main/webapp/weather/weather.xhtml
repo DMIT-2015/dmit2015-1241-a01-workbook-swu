@@ -1,0 +1,54 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Weather - 5 Day Forecast"/>
+
+    <ui:define name="maincontent">
+        <h1>Weather - 5 Day Forecast</h1>
+        <p>This Faces page demonstrates showing a list of WeatherForecast objects.</p>
+
+        <!--Display all messages in FacesContext -->
+        <p:messages id="messages"/>
+        <p:growl id="growl"/>
+
+        <h:form prependId="false">
+            <div class="card">
+                <p:dataTable var="forecast" value="#{currentWeatherForecastRequestScopedView.forecasts}">
+                    <p:column headerText="Date">
+                        <h:outputText value="#{forecast.date}">
+                            <f:convertDateTime type="localDate" pattern="MM/dd/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Temp. (C)">
+                        <h:outputText value="#{forecast.temperatureC}" />
+                    </p:column>
+
+                    <p:column headerText="Temp. (F)">
+                        <h:outputText value="#{forecast.temperatureF}" />
+                    </p:column>
+
+                    <p:column headerText="Summary">
+                        <h:outputText value="#{forecast.summary}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
