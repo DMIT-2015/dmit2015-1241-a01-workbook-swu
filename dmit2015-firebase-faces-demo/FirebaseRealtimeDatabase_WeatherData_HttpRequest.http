@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### Remove JSON data - use this if you want to delete data
-@deletePrimaryKeyValue = -O6b4c5Qqvk9L1YBur4Z
+@deletePrimaryKeyValue = -O6vfIkSJPUXuFS0ZLiv
 DELETE https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/FirebaseWeatherForecast/{{deletePrimaryKeyValue}}.json
 
 ### Update data - use this if you want to update some of the properties but not all of them

@@ -1,0 +1,40 @@
+// Firebase Realtime Database stores JSON data in a JSON Tree structure
+
+### Push new JSON data to the path
+POST https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/Student.json
+Content-Type: application/json
+
+{
+  "firstName": "Donald",
+  "lastName": "Trump",
+  "email": "notrealtrump@nait.ca"
+}
+
+### Read JSON data by path
+GET https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/Student.json
+
+### Read JSON data by path and primary key value
+@primaryKeyValue = -O6vjpYjqs2KOJhw15g2
+GET https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/Student/{{primaryKeyValue}}.json
+
+### Write JSON data - will replace all properties with the properties in the request body - if you miss a property it will be removed
+PUT https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/Student/{{primaryKeyValue}}.json
+Content-Type: application/json
+
+{
+  "firstName": "Fake",
+  "lastName": "Trump",
+  "email": "faketrump@nait.ca"
+}
+
+### Remove JSON data - use this if you want to delete data
+@deletePrimaryKeyValue = replace-with-actual-value
+DELETE https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/Student/{{deletePrimaryKeyValue}}.json
+
+### Update data - use this if you want to update some of the properties but not all of them
+PATCH https://dmit2015-1241-a01-swu-default-rtdb.firebaseio.com/Student/{{primaryKeyValue}}.json
+Content-Type: application/json
+
+{
+  "firstName": "Ivanka"
+}
