@@ -1,6 +1,6 @@
 package dmit2015.faces;
 
-import dmit2015.model.WeatherData;
+import dmit2015.model.FirebaseWeatherForecast;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
@@ -19,8 +19,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.random.RandomGenerator;
 
 /**
  * This Jakarta Faces backing bean class contains the data and event handlers
@@ -28,29 +30,29 @@ import java.util.List;
  * <p>
  * The Java HttpClient library is used send Http Request to the Firebase Realtime Database REST API.
  */
-@Named("currentWeatherDataFirebaseRtdbCrudView")
+@Named("currentFirebaseWeatherForecastFirebaseRtdbCrudView")
 @ViewScoped // create this object for one HTTP request and keep in memory if the next is for the same page
-public class WeatherDataFirebaseRtdbCrudView implements Serializable {
+public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable {
 
     /**
-     * The selected WeatherData instance to create, edit, update or delete.
+     * The selected FirebaseWeatherForecast instance to create, edit, update or delete.
      */
     @Getter
     @Setter
-    private WeatherData selectedWeatherData;
+    private FirebaseWeatherForecast selectedFirebaseWeatherForecast;
 
     /**
-     * The unique name of the selected WeatherData instance.
+     * The unique name of the selected FirebaseWeatherForecast instance.
      */
     @Getter
     @Setter
     private String selectedId;
 
     /**
-     * The list of WeatherData objects fetched from the Firebase Realtime Database
+     * The list of FirebaseWeatherForecast objects fetched from the Firebase Realtime Database
      */
     @Getter
-    private List<WeatherData> weatherDatas;
+    private List<FirebaseWeatherForecast> firebaseWeatherForecasts;
 
     /**
      * The base URL to the Firebase Realtime Database
@@ -63,20 +65,20 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
     private String _jsonAllDataPath;
 
     /**
-     * Fetch all WeatherData from the Firebase Realtime Database
+     * Fetch all FirebaseWeatherForecast from the Firebase Realtime Database
      */
     @PostConstruct
     public void init() {
-        _jsonAllDataPath = String.format("%s/%s.json", FIREBASE_REALTIME_DATABASE_BASE_URL, WeatherData.class.getSimpleName());
+        _jsonAllDataPath = String.format("%s/%s.json", FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName());
         fetchFirebaseData();
     }
 
     /**
      * Event handler for the New button on the Faces crud page.
-     * Create a new selected WeatherData instance to enter data for.
+     * Create a new selected FirebaseWeatherForecast instance to enter data for.
      */
     public void onOpenNew() {
-        selectedWeatherData = new WeatherData();
+        selectedFirebaseWeatherForecast = new FirebaseWeatherForecast();
         selectedId = null;
     }
 
@@ -88,7 +90,11 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
     public void onGenerateData() {
         try {
             var faker = new Faker();
-            //currentWeatherData.setPropertyName(faker.providerName().dataName());
+            var randomGenerator = RandomGenerator.getDefault();
+            selectedFirebaseWeatherForecast.setCity(faker.address().city());
+            selectedFirebaseWeatherForecast.setDate(LocalDate.now().plusDays(randomGenerator.nextInt(1, 6)));
+            selectedFirebaseWeatherForecast.setTemperatureCelsius(faker.number().numberBetween(-20,50));
+            selectedFirebaseWeatherForecast.setDescription(faker.weather().description());
 
         } catch (Exception e) {
             Messages.addGlobalError("Error generating data {0}", e.getMessage());
@@ -97,7 +103,7 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
     }
 
     /**
-     * Push or Write currentWeatherData to Firebase Realtime Database using the REST API
+     * Push or Write currentFirebaseWeatherForecast to Firebase Realtime Database using the REST API
      *
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
@@ -107,8 +113,8 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
         try (Jsonb jsonb = JsonbBuilder.create();
              var httpClient = HttpClient.newHttpClient()) {
 
-            // Convert the currentWeatherData to a JSON string using JSONB
-            String requestBodyJson = jsonb.toJson(selectedWeatherData);
+            // Convert the currentFirebaseWeatherForecast to a JSON string using JSONB
+            String requestBodyJson = jsonb.toJson(selectedFirebaseWeatherForecast);
 
             // If selecteId is null then create new data otherwise update current data
             if (selectedId == null) {
@@ -130,7 +136,7 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
                     // Send a Faces info message that add was successful
                     Messages.addGlobalInfo("Successfully added data with name {0}", responseJsonObject.getString("name"));
                     // Reset the selected instance to null
-                    selectedWeatherData = null;
+                    selectedFirebaseWeatherForecast = null;
 
                 } else {
                     // Send a Faces info message that add was not successful
@@ -141,7 +147,7 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
 
                 // Build the url path to object to update
                 String _jsonSingleDataPath = String.format("%s/%s/%s.json",
-                        FIREBASE_REALTIME_DATABASE_BASE_URL, WeatherData.class.getSimpleName(), selectedWeatherData.getName());
+                        FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), selectedFirebaseWeatherForecast.getName());
 
                 // Create and Http Request to send an HTTP PUT request to write over existing data
                 var httpRequest = HttpRequest.newBuilder()
@@ -155,11 +161,11 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
                 if (httpResponse.statusCode() == 200) {
                     // Get the body of the Http Response
                     var responseBodyJson = httpResponse.body();
-                    // Convert the JSON String to an WeatherData instance
-                    WeatherData updatedWeatherData = jsonb.fromJson(responseBodyJson, WeatherData.class);
+                    // Convert the JSON String to an FirebaseWeatherForecast instance
+                    FirebaseWeatherForecast updatedFirebaseWeatherForecast = jsonb.fromJson(responseBodyJson, FirebaseWeatherForecast.class);
                     // Send a Faces info message that update was successful
-                    Messages.addGlobalInfo("Successfully updated WeatherData {0}",
-                            updatedWeatherData.toString());
+                    Messages.addGlobalInfo("Successfully updated FirebaseWeatherForecast {0}",
+                            updatedFirebaseWeatherForecast.toString());
                 } else {
                     // Send a Faces info message that update was not successful
                     Messages.addGlobalInfo("Update was not successful, server return status {0}", httpResponse.statusCode());
@@ -171,7 +177,7 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
             fetchFirebaseData();
 
             // Hide the PrimeFaces dialog
-            PrimeFaces.current().executeScript("PF('manageWeatherDataDialog').hide()");
+            PrimeFaces.current().executeScript("PF('manageFirebaseWeatherForecastDialog').hide()");
 
         } catch (Exception e) {
             // Send a Faces info message that an error occurred when saving
@@ -182,7 +188,7 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
     }
 
     /**
-     * Remove currentWeatherData to Firebase Realtime Database using the REST API
+     * Remove currentFirebaseWeatherForecast to Firebase Realtime Database using the REST API
      *
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
@@ -193,10 +199,10 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
              var httpClient = HttpClient.newHttpClient()) {
 
             // Get the unique name of the Json object to delete
-            String name = selectedWeatherData.getName();
+            String name = selectedFirebaseWeatherForecast.getName();
             // Build the URL path of the Json object to delete
             String _jsonSingleDataPath = String.format("%s/%s/%s.json",
-                    FIREBASE_REALTIME_DATABASE_BASE_URL, WeatherData.class.getSimpleName(), name);
+                    FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), name);
             // Create an DELETE Http Request
             var httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(_jsonSingleDataPath))
@@ -222,7 +228,7 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
     }
 
     /**
-     * Get currentWeatherData to Firebase Realtime Database using the REST API
+     * Get currentFirebaseWeatherForecast to Firebase Realtime Database using the REST API
      *
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
@@ -244,27 +250,27 @@ public class WeatherDataFirebaseRtdbCrudView implements Serializable {
             if (httpResponse.statusCode() == 200) {
                 // Get the body of the Http Response
                 var responseBodyJson = httpResponse.body();
-                // Convert the responseBodyJson to an LinkedHashMap<String, WeatherData>
-                LinkedHashMap<String, WeatherData> responseData = jsonb.fromJson(responseBodyJson, new LinkedHashMap<String, WeatherData>() {
+                // Convert the responseBodyJson to an LinkedHashMap<String, FirebaseWeatherForecast>
+                LinkedHashMap<String, FirebaseWeatherForecast> responseData = jsonb.fromJson(responseBodyJson, new LinkedHashMap<String, FirebaseWeatherForecast>() {
                 }.getClass().getGenericSuperclass());
-                // Convert the LinkedHashMap<String, WeatherData> to List<WeatherData>
-                weatherDatas = responseData.entrySet()
+                // Convert the LinkedHashMap<String, FirebaseWeatherForecast> to List<FirebaseWeatherForecast>
+                firebaseWeatherForecasts = responseData.entrySet()
                         .stream()
                         .map(item -> {
-                            var currentWeatherData = new WeatherData();
-                            currentWeatherData.setName(item.getKey());
+                            var currentFirebaseWeatherForecast= new FirebaseWeatherForecast();
+                            currentFirebaseWeatherForecast.setName(item.getKey());
 
-                            currentWeatherData.setCity(item.getValue().getCity());
-                            currentWeatherData.setDate(item.getValue().getDate());
-                            currentWeatherData.setDescription(item.getValue().getDescription());
-                            currentWeatherData.setTemperatureCelsius(item.getValue().getTemperatureCelsius());
+                            currentFirebaseWeatherForecast.setCity(item.getValue().getCity());
+                            currentFirebaseWeatherForecast.setDate(item.getValue().getDate());
+                            currentFirebaseWeatherForecast.setDescription(item.getValue().getDescription());
+                            currentFirebaseWeatherForecast.setTemperatureCelsius(item.getValue().getTemperatureCelsius());
 
-                            return currentWeatherData;
+                            return currentFirebaseWeatherForecast;
                         })
                         .toList();
 
                 Messages.addGlobalInfo("Successfully fetched Firebase Realtime Database data");
-                PrimeFaces.current().ajax().update("dialogs:messages", "form:dt-WeatherDatas");
+                PrimeFaces.current().ajax().update("dialogs:messages", "form:dt-FirebaseWeatherForecasts");
             } else {
                 Messages.addGlobalInfo("Fetch data was not successful, server return status {0}", httpResponse.statusCode());
             }

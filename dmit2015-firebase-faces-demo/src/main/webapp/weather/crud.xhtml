@@ -14,10 +14,10 @@
         template="/WEB-INF/faces-templates/layout.xhtml"
 >
 
-    <ui:param name="title" value="FirebaseRTDB WeatherData - CRUD"/>
+    <ui:param name="title" value="FirebaseRTDB FirebaseWeatherForecast - CRUD"/>
 
     <ui:param name="internalstyles"
-              value=".WeatherDatas-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
+              value=".FirebaseWeatherForecasts-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
 
     <ui:define name="maincontent">
 
@@ -31,30 +31,30 @@
                     <p:toolbarGroup>
                         <p:commandButton id="createButton"
                                          value="New" icon="pi pi-plus"
-                                         actionListener="#{currentWeatherDataFirebaseRtdbCrudView.onOpenNew}"
-                                         update=":dialogs:manage-WeatherData-content"
-                                         oncomplete="PF('manageWeatherDataDialog').show()"
+                                         actionListener="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.onOpenNew}"
+                                         update=":dialogs:manage-FirebaseWeatherForecast-content"
+                                         oncomplete="PF('manageFirebaseWeatherForecastDialog').show()"
                                          styleClass="ui-button-success" style="margin-right: .5rem">
-                            <p:resetInput target=":dialogs:manage-WeatherData-content"/>
+                            <p:resetInput target=":dialogs:manage-FirebaseWeatherForecast-content"/>
                         </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
 
-                <p:dataTable id="dt-WeatherDatas" widgetVar="dtWeatherDatas"
-                             value="#{currentWeatherDataFirebaseRtdbCrudView.weatherDatas}"
+                <p:dataTable id="dt-FirebaseWeatherForecasts" widgetVar="dtFirebaseWeatherForecasts"
+                             value="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.firebaseWeatherForecasts}"
                              var="currentItem"
                              reflow="true"
-                             selection="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData}"
+                             selection="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast}"
                              rowKey="#{currentItem.name}"
                              paginator="true" rows="10"
                              paginatorPosition="bottom">
 
                     <f:facet name="header">
-                        <div class="WeatherDatas-table-header">
-                            <span style="font-weight: bold">WeatherDatas</span>
+                        <div class="FirebaseWeatherForecasts-table-header">
+                            <span style="font-weight: bold">FirebaseWeatherForecasts</span>
                             <span class="filter-container ui-input-icon-left">
                                 <i class="pi pi-search"></i>
-                                <p:inputText id="globalFilter" onkeyup="PF('dtWeatherDatas').filter()"
+                                <p:inputText id="globalFilter" onkeyup="PF('dtFirebaseWeatherForecasts').filter()"
                                              placeholder="Search"/>
                             </span>
                         </div>
@@ -71,22 +71,22 @@
                     </p:column>
 
                     <p:column exportable="false">
-                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-WeatherData-content"
-                                         oncomplete="PF('manageWeatherDataDialog').show()"
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-FirebaseWeatherForecast-content"
+                                         oncomplete="PF('manageFirebaseWeatherForecastDialog').show()"
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{currentItem}"
-                                                         target="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData}"/>
+                                                         target="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast}"/>
                             <f:setPropertyActionListener value="#{currentItem.name}"
-                                                         target="#{currentWeatherDataFirebaseRtdbCrudView.selectedId}"/>
-                            <p:resetInput target=":dialogs:manage-WeatherData-content"/>
+                                                         target="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedId}"/>
+                            <p:resetInput target=":dialogs:manage-FirebaseWeatherForecast-content"/>
                         </p:commandButton>
                         <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                          process="@this"
-                                         oncomplete="PF('deleteWeatherDataDialog').show()">
+                                         oncomplete="PF('deleteFirebaseWeatherForecastDialog').show()">
                             <f:setPropertyActionListener value="#{currentItem}"
-                                                         target="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData}"/>
+                                                         target="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast}"/>
                             <f:setPropertyActionListener value="#{currentItem.name}"
-                                                         target="#{currentWeatherDataFirebaseRtdbCrudView.selectedId}"/>
+                                                         target="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedId}"/>
                         </p:commandButton>
                     </p:column>
 
@@ -94,37 +94,36 @@
             </h:form>
 
             <h:form id="dialogs">
-                <p:dialog header="WeatherData Details" showEffect="fade" modal="true"
-                          widgetVar="manageWeatherDataDialog"
+                <p:dialog header="FirebaseWeatherForecast Details" showEffect="fade" modal="true"
+                          widgetVar="manageFirebaseWeatherForecastDialog"
                           responsive="true">
 
                     <p:messages id="messages">
                         <p:autoUpdate/>
                     </p:messages>
 
-                    <p:outputPanel id="manage-WeatherData-content" class="ui-fluid">
+                    <p:outputPanel id="manage-FirebaseWeatherForecast-content" class="ui-fluid">
                         <p:outputPanel
-                                rendered="#{not empty currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData}">
-                            <!-- TODO: Add input field for each editable property of the entity -->
+                                rendered="#{not empty currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast}">
                             <div class="field">
                                 <p:outputLabel for="@next">City</p:outputLabel>
                                 <p:inputText
                                         id="city"
-                                        value="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData.city}">
+                                        value="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast.city}">
                                 </p:inputText>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="@next">TempCelsius</p:outputLabel>
                                 <p:inputText
                                         id="temperatureCelsius"
-                                        value="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData.temperatureCelsius}">
+                                        value="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast.temperatureCelsius}">
                                 </p:inputText>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="@next">Date</p:outputLabel>
                                 <p:inputText
                                         id="date"
-                                        value="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData.date}">
+                                        value="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast.date}">
                                     <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
                                 </p:inputText>
                             </div>
@@ -132,7 +131,7 @@
                                 <p:outputLabel for="@next">Description</p:outputLabel>
                                 <p:inputText
                                         id="description"
-                                        value="#{currentWeatherDataFirebaseRtdbCrudView.selectedWeatherData.description}">
+                                        value="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.selectedFirebaseWeatherForecast.description}">
                                 </p:inputText>
                             </div>
 
@@ -141,23 +140,27 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Save" icon="pi pi-check"
-                                         actionListener="#{currentWeatherDataFirebaseRtdbCrudView.onSave}"
-                                         update="manage-WeatherData-content"
-                                         process="manage-WeatherData-content @this"/>
+                                         actionListener="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.onSave}"
+                                         update="manage-FirebaseWeatherForecast-content"
+                                         process="manage-FirebaseWeatherForecast-content @this"/>
+                        <p:commandButton value="Generate" icon="pi pi-check"
+                                         actionListener="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.onGenerateData()}"
+                                         update="manage-FirebaseWeatherForecast-content"
+                                         process="manage-FirebaseWeatherForecast-content @this"/>
                         <p:commandButton value="Cancel" icon="pi pi-times"
-                                         onclick="PF('manageWeatherDataDialog').hide()"
+                                         onclick="PF('manageFirebaseWeatherForecastDialog').hide()"
                                          class="ui-button-secondary" type="button"/>
                     </f:facet>
                 </p:dialog>
 
-                <p:confirmDialog widgetVar="deleteWeatherDataDialog" showEffect="fade" width="300"
-                                 message="Delete the WeatherData?" header="Confirm" severity="warn">
+                <p:confirmDialog widgetVar="deleteFirebaseWeatherForecastDialog" showEffect="fade" width="300"
+                                 message="Delete the FirebaseWeatherForecast?" header="Confirm" severity="warn">
                     <p:commandButton value="Yes" icon="pi pi-check"
-                                     actionListener="#{currentWeatherDataFirebaseRtdbCrudView.onDelete}"
+                                     actionListener="#{currentFirebaseWeatherForecastFirebaseRtdbCrudView.onDelete}"
                                      process="@this"
-                                     oncomplete="PF('deleteWeatherDataDialog').hide()"/>
+                                     oncomplete="PF('deleteFirebaseWeatherForecastDialog').hide()"/>
                     <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                                     onclick="PF('deleteWeatherDataDialog').hide()"/>
+                                     onclick="PF('deleteFirebaseWeatherForecastDialog').hide()"/>
                 </p:confirmDialog>
 
                 <p:confirmDialog global="true" showEffect="fade" width="300">

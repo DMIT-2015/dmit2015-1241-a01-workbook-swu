@@ -5,9 +5,9 @@ import java.time.LocalDate;
 /**
  * This class tracks historical weather data for a city.
  *
- * @version 2024.05.17
+ * @version 2024.09.13
  */
-public class WeatherData {
+public class FirebaseWeatherForecast {
 
     private String name;
 
