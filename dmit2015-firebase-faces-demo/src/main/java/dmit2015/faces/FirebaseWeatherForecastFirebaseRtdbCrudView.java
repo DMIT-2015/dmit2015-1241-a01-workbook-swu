@@ -250,26 +250,31 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
             if (httpResponse.statusCode() == 200) {
                 // Get the body of the Http Response
                 var responseBodyJson = httpResponse.body();
-                // Convert the responseBodyJson to an LinkedHashMap<String, FirebaseWeatherForecast>
-                LinkedHashMap<String, FirebaseWeatherForecast> responseData = jsonb.fromJson(responseBodyJson, new LinkedHashMap<String, FirebaseWeatherForecast>() {
-                }.getClass().getGenericSuperclass());
-                // Convert the LinkedHashMap<String, FirebaseWeatherForecast> to List<FirebaseWeatherForecast>
-                firebaseWeatherForecasts = responseData.entrySet()
-                        .stream()
-                        .map(item -> {
-                            var currentFirebaseWeatherForecast= new FirebaseWeatherForecast();
-                            currentFirebaseWeatherForecast.setName(item.getKey());
+                if (responseBodyJson.equalsIgnoreCase("null")) {
+                    firebaseWeatherForecasts = null;
+                } else {
+                    // Convert the responseBodyJson to an LinkedHashMap<String, FirebaseWeatherForecast>
+                    LinkedHashMap<String, FirebaseWeatherForecast> responseData = jsonb.fromJson(responseBodyJson, new LinkedHashMap<String, FirebaseWeatherForecast>() {
+                    }.getClass().getGenericSuperclass());
+                    // Convert the LinkedHashMap<String, FirebaseWeatherForecast> to List<FirebaseWeatherForecast>
+                    firebaseWeatherForecasts = responseData.entrySet()
+                            .stream()
+                            .map(item -> {
+                                var currentFirebaseWeatherForecast= new FirebaseWeatherForecast();
+                                currentFirebaseWeatherForecast.setName(item.getKey());
 
-                            currentFirebaseWeatherForecast.setCity(item.getValue().getCity());
-                            currentFirebaseWeatherForecast.setDate(item.getValue().getDate());
-                            currentFirebaseWeatherForecast.setDescription(item.getValue().getDescription());
-                            currentFirebaseWeatherForecast.setTemperatureCelsius(item.getValue().getTemperatureCelsius());
+                                currentFirebaseWeatherForecast.setCity(item.getValue().getCity());
+                                currentFirebaseWeatherForecast.setDate(item.getValue().getDate());
+                                currentFirebaseWeatherForecast.setDescription(item.getValue().getDescription());
+                                currentFirebaseWeatherForecast.setTemperatureCelsius(item.getValue().getTemperatureCelsius());
 
-                            return currentFirebaseWeatherForecast;
-                        })
-                        .toList();
+                                return currentFirebaseWeatherForecast;
+                            })
+                            .toList();
 
-                Messages.addGlobalInfo("Successfully fetched Firebase Realtime Database data");
+                    Messages.addGlobalInfo("Successfully fetched Firebase Realtime Database data");
+                }
+
                 PrimeFaces.current().ajax().update("dialogs:messages", "form:dt-FirebaseWeatherForecasts");
             } else {
                 Messages.addGlobalInfo("Fetch data was not successful, server return status {0}", httpResponse.statusCode());
