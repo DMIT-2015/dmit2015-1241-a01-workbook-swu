@@ -18,6 +18,15 @@
     </properties>
 
     <dependencies>
+        <!-- Eclipse Microprofile is for building Microservices -->
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>6.1</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
@@ -157,6 +166,8 @@
                         <layer>cloud-server</layer>
                         <layer>jsf</layer>
                         <layer>microprofile-config</layer>
+                        <layer>microprofile-rest-client</layer>
+                        <layer>undertow-https</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
