@@ -3,6 +3,7 @@ package dmit2015.faces;
 import dmit2015.model.Student;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.json.JsonObject;
 import jakarta.json.bind.Jsonb;
@@ -31,6 +32,9 @@ import java.util.List;
 @Named("currentStudentFirebaseRtdbCrudView")
 @ViewScoped // create this object for one HTTP request and keep in memory if the next is for the same page
 public class StudentFirebaseRtdbCrudView implements Serializable {
+
+    @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
 
     /**
      * The selected Student instance to create, edit, update or delete.
@@ -67,7 +71,18 @@ public class StudentFirebaseRtdbCrudView implements Serializable {
      */
     @PostConstruct
     public void init() {
-        _jsonAllDataPath = String.format("%s/%s.json", FIREBASE_REALTIME_DATABASE_BASE_URL, Student.class.getSimpleName());
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
+//        _jsonAllDataPath = String.format("%s/%s.json", FIREBASE_REALTIME_DATABASE_BASE_URL, Student.class.getSimpleName());
+        // Set the path in the database for content-owner access only data
+        _jsonAllDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                FIREBASE_REALTIME_DATABASE_BASE_URL,
+                Student.class.getSimpleName(),
+                firebaseUserId,
+                firebaseToken);
+
         fetchFirebaseData();
     }
 
@@ -105,6 +120,10 @@ public class StudentFirebaseRtdbCrudView implements Serializable {
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
     public void onSave() {
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
         // Jsonb is used for converting Java objects to a JSON string or visa-versa
         // HttpClient is native Java library for sending Http Request to a web server
         try (Jsonb jsonb = JsonbBuilder.create();
@@ -143,8 +162,13 @@ public class StudentFirebaseRtdbCrudView implements Serializable {
             } else {
 
                 // Build the url path to object to update
-                String _jsonSingleDataPath = String.format("%s/%s/%s.json",
-                        FIREBASE_REALTIME_DATABASE_BASE_URL, Student.class.getSimpleName(), selectedStudent.getName());
+//                String _jsonSingleDataPath = String.format("%s/%s/%s.json",
+//                        FIREBASE_REALTIME_DATABASE_BASE_URL, Student.class.getSimpleName(), selectedStudent.getName());
+                String _jsonSingleDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                        FIREBASE_REALTIME_DATABASE_BASE_URL,
+                        Student.class.getSimpleName(),
+                        selectedStudent.getName(),
+                        firebaseToken);
 
                 // Create and Http Request to send an HTTP PUT request to write over existing data
                 var httpRequest = HttpRequest.newBuilder()
@@ -190,6 +214,10 @@ public class StudentFirebaseRtdbCrudView implements Serializable {
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
     public void onDelete() {
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
         // Jsonb is used for converting Java objects to a JSON string or visa-versa
         // HttpClient is native Java library for sending Http Request to a web server
         try (Jsonb jsonb = JsonbBuilder.create();
@@ -198,8 +226,14 @@ public class StudentFirebaseRtdbCrudView implements Serializable {
             // Get the unique name of the Json object to delete
             String name = selectedStudent.getName();
             // Build the URL path of the Json object to delete
-            String _jsonSingleDataPath = String.format("%s/%s/%s.json",
-                    FIREBASE_REALTIME_DATABASE_BASE_URL, Student.class.getSimpleName(), name);
+//            String _jsonSingleDataPath = String.format("%s/%s/%s.json",
+//                    FIREBASE_REALTIME_DATABASE_BASE_URL, Student.class.getSimpleName(), name);
+            String _jsonSingleDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                    FIREBASE_REALTIME_DATABASE_BASE_URL,
+                    Student.class.getSimpleName(),
+                    selectedStudent.getName(),
+                    firebaseToken);
+
             // Create an DELETE Http Request
             var httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(_jsonSingleDataPath))
@@ -230,6 +264,10 @@ public class StudentFirebaseRtdbCrudView implements Serializable {
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
     private void fetchFirebaseData() {
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
         // Jsonb is used for converting Java objects to a JSON string or visa-versa
         // HttpClient is native Java library for sending Http Request to a web server
         try (Jsonb jsonb = JsonbBuilder.create();

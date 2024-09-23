@@ -1,0 +1,16 @@
+###
+
+# curl 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]'
+#-H 'Content-Type: application/json'
+#--data-binary '{"email":"[user@example.com]","password":"[PASSWORD]","returnSecureToken":true}'
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{WEB_API_KEY}}
+Content-Type: application/json
+
+{
+  "email": "user01@dmit2015.ca",
+  "password": "Password2015",
+  "returnSecureToken": true
+}
+
+###
+

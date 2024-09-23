@@ -1,12 +1,15 @@
-package dmit2015.restclient;
+package dmit2015.faces;
 
-import jakarta.enterprise.context.SessionScoped;
+import dmit2015.restclient.FirebaseAuthenticationMpRestClient;
+import dmit2015.restclient.FirebaseUser;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
+
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.omnifaces.util.Faces;
@@ -27,7 +30,7 @@ public class FirebaseLoginSession implements Serializable {
     private FirebaseAuthenticationMpRestClient _loginService;
 
     @Inject
-    @ConfigProperty(name = "firebase.webapikey")
+    @ConfigProperty(name = "firebase.web.api.key")
     private String _firebaserestapiKey;
 
     @Getter @Setter

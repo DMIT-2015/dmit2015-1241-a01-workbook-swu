@@ -3,6 +3,7 @@ package dmit2015.faces;
 import dmit2015.model.FirebaseWeatherForecast;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.json.JsonObject;
 import jakarta.json.bind.Jsonb;
@@ -33,6 +34,9 @@ import java.util.random.RandomGenerator;
 @Named("currentFirebaseWeatherForecastFirebaseRtdbCrudView")
 @ViewScoped // create this object for one HTTP request and keep in memory if the next is for the same page
 public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable {
+
+    @Inject
+    private FirebaseLoginSession _firebaseLoginSession;
 
     /**
      * The selected FirebaseWeatherForecast instance to create, edit, update or delete.
@@ -69,7 +73,17 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
      */
     @PostConstruct
     public void init() {
-        _jsonAllDataPath = String.format("%s/%s.json", FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName());
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
+//        _jsonAllDataPath = String.format("%s/%s.json", FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName());
+        _jsonAllDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                FIREBASE_REALTIME_DATABASE_BASE_URL,
+                FirebaseWeatherForecast.class.getSimpleName(),
+                firebaseUserId,
+                firebaseToken);
+
         fetchFirebaseData();
     }
 
@@ -108,6 +122,10 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
     public void onSave() {
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
         // Jsonb is used for converting Java objects to a JSON string or visa-versa
         // HttpClient is native Java library for sending Http Request to a web server
         try (Jsonb jsonb = JsonbBuilder.create();
@@ -146,8 +164,13 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
             } else {
 
                 // Build the url path to object to update
-                String _jsonSingleDataPath = String.format("%s/%s/%s.json",
-                        FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), selectedFirebaseWeatherForecast.getName());
+//                String _jsonSingleDataPath = String.format("%s/%s/%s.json",
+//                        FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), selectedFirebaseWeatherForecast.getName());
+                String _jsonSingleDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                        FIREBASE_REALTIME_DATABASE_BASE_URL,
+                        FirebaseWeatherForecast.class.getSimpleName(),
+                        selectedFirebaseWeatherForecast.getName(),
+                        firebaseToken);
 
                 // Create and Http Request to send an HTTP PUT request to write over existing data
                 var httpRequest = HttpRequest.newBuilder()
@@ -193,6 +216,10 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
     public void onDelete() {
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
         // Jsonb is used for converting Java objects to a JSON string or visa-versa
         // HttpClient is native Java library for sending Http Request to a web server
         try (Jsonb jsonb = JsonbBuilder.create();
@@ -201,8 +228,14 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
             // Get the unique name of the Json object to delete
             String name = selectedFirebaseWeatherForecast.getName();
             // Build the URL path of the Json object to delete
-            String _jsonSingleDataPath = String.format("%s/%s/%s.json",
-                    FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), name);
+//            String _jsonSingleDataPath = String.format("%s/%s/%s.json",
+//                    FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), name);
+            String _jsonSingleDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                    FIREBASE_REALTIME_DATABASE_BASE_URL,
+                    FirebaseWeatherForecast.class.getSimpleName(),
+                    selectedFirebaseWeatherForecast.getName(),
+                    firebaseToken);
+
             // Create an DELETE Http Request
             var httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(_jsonSingleDataPath))
@@ -233,6 +266,10 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
      * @link <a href="https://firebase.google.com/docs/reference/rest/database">Firebase Realtime Database REST API</a>
      */
     private void fetchFirebaseData() {
+        // Get the Firebase Authenticated userId and token.
+        String firebaseUserId = _firebaseLoginSession.getFirebaseUser().getLocalId();
+        String firebaseToken = _firebaseLoginSession.getFirebaseUser().getIdToken();
+
         // Jsonb is used for converting Java objects to a JSON string or visa-versa
         // HttpClient is native Java library for sending Http Request to a web server
         try (Jsonb jsonb = JsonbBuilder.create();
