@@ -138,7 +138,8 @@
                                          update="manage-Student-content" process="manage-Student-content @this"/>
                         <p:commandButton value="Generate" icon="pi pi-calculator"
                                          actionListener="#{currentStudentFirebaseRtdbCrudView.onGenerateData()}"
-                                         update="manage-Student-content" process="manage-Student-content @this"/>
+                                         update="manage-Student-content"
+                                         process="@this"/>
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageStudentDialog').hide()"
                                          class="ui-button-secondary" type="button"/>
                     </f:facet>

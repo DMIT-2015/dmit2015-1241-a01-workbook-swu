@@ -166,9 +166,10 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
                 // Build the url path to object to update
 //                String _jsonSingleDataPath = String.format("%s/%s/%s.json",
 //                        FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), selectedFirebaseWeatherForecast.getName());
-                String _jsonSingleDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+                String _jsonSingleDataPath = String.format("%s/%sOwner/%s/%s.json?auth=%s",
                         FIREBASE_REALTIME_DATABASE_BASE_URL,
                         FirebaseWeatherForecast.class.getSimpleName(),
+                        firebaseUserId,
                         selectedFirebaseWeatherForecast.getName(),
                         firebaseToken);
 
@@ -230,9 +231,10 @@ public class FirebaseWeatherForecastFirebaseRtdbCrudView implements Serializable
             // Build the URL path of the Json object to delete
 //            String _jsonSingleDataPath = String.format("%s/%s/%s.json",
 //                    FIREBASE_REALTIME_DATABASE_BASE_URL, FirebaseWeatherForecast.class.getSimpleName(), name);
-            String _jsonSingleDataPath = String.format("%s/%sOwner/%s.json?auth=%s",
+            String _jsonSingleDataPath = String.format("%s/%sOwner/%s/%s.json?auth=%s",
                     FIREBASE_REALTIME_DATABASE_BASE_URL,
                     FirebaseWeatherForecast.class.getSimpleName(),
+                    firebaseUserId,
                     selectedFirebaseWeatherForecast.getName(),
                     firebaseToken);
 

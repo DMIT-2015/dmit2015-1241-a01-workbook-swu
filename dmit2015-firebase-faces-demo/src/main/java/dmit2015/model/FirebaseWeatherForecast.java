@@ -1,5 +1,7 @@
 package dmit2015.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
 
 /**
@@ -11,6 +13,7 @@ public class FirebaseWeatherForecast {
 
     private String name;
 
+    @NotBlank(message = "City value is required.")
     private String city;
 
     private LocalDate date;
