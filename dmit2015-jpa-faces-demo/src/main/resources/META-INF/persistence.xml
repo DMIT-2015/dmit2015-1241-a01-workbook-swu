@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+<!--    <persistence-unit name="resource-local-h2database-jpa-pu" transaction-type="RESOURCE_LOCAL">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+<!--        <properties>-->
+<!--            <property name="hibernate.show_sql" value="true"/>-->
+
+<!--            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;" />-->
+<!--    &lt;!&ndash;            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:~/jdk/databases/h2/DMIT2015CourseDB;" /> &ndash;&gt;-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="user2015" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="Password" />-->
+
+<!--&lt;!&ndash;            <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/import-data.sql" />&ndash;&gt;-->
+
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="resource-local-mssql-dmit2015-jpa-pu" transaction-type="RESOURCE_LOCAL">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+<!--        <properties>-->
+<!--            <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost;databaseName=DMIT2015CourseDB;TrustServerCertificate=true" />-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="user2015" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="Password2015" />-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="resource-local-oracle-jpa-user2015-pu" transaction-type="RESOURCE_LOCAL">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+<!--        <properties>-->
+<!--            <property name="jakarta.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521/FREEPDB1" />-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="user2015" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="Password2015" />-->
+
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="resource-local-postgresql-jpa-pu" transaction-type="RESOURCE_LOCAL">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+<!--        <properties>-->
+<!--            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost/DMIT2015CourseDB" />-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="user2015" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="Password2015" />-->
+
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="resource-local-mysql-jpa-pu" transaction-type="RESOURCE_LOCAL">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+<!--        <properties>-->
+<!--            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/DMIT2015CourseDB" />-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="user2015" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="Password2015" />-->
+
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="resource-local-mariadb-jpa-pu" transaction-type="RESOURCE_LOCAL">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+<!--        <properties>-->
+<!--            <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />-->
+<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://localhost/DMIT2015CourseDB" />-->
+<!--            <property name="jakarta.persistence.jdbc.user" value="user2015" />-->
+<!--            <property name="jakarta.persistence.jdbc.password" value="Password2015" />-->
+
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+    <persistence-unit name="h2database-jpa-pu" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/datasources/H2DatabaseDS</jta-data-source>
+
+        <!-- Data source to use with wildfly-datasources-galleon-pack
+            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack -->
+<!--        <jta-data-source>java:jboss/datasources/H2DatabaseDS</jta-data-source>-->
+
+        <properties>
+            <property name="hibernate.show_sql" value="true" />
+
+            <!-- jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+            <!-- <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/import-data.sql" /> -->
+
+        </properties>
+    </persistence-unit>
+
+<!--    <persistence-unit name="mssql-dmit2015-jpa-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/MSSQLServerDS</jta-data-source>-->
+
+<!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+<!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+<!--    &lt;!&ndash;        <jta-data-source>java:jboss/datasources/MSSQLServerDS</jta-data-source>&ndash;&gt;-->
+
+<!--        <properties>-->
+<!--            &lt;!&ndash; database.action: drop-and-create, create, update, none &ndash;&gt;-->
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="oracle-jpa-user2015-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/OracleDS</jta-data-source>-->
+
+<!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+<!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+<!--&lt;!&ndash;            <jta-data-source>java:jboss/datasources/OracleDS</jta-data-source>&ndash;&gt;-->
+
+<!--        <properties>-->
+<!--            <property name="hibernate.type.preferred_instant_jdbc_type" value="TIMESTAMP"/>-->
+
+<!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="oracle-jpa-hr-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/OracleHrDS</jta-data-source>-->
+
+<!--        <properties>-->
+<!--            <property name="hibernate.type.preferred_instant_jdbc_type" value="TIMESTAMP"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="oracle-jpa-co-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/OracleCoDS</jta-data-source>-->
+
+<!--        <properties>-->
+<!--            <property name="hibernate.type.preferred_instant_jdbc_type" value="TIMESTAMP"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+    <persistence-unit name="postgresql-jpa-pu" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/datasources/PostgreSQLDS</jta-data-source>
+
+        <!-- Data source to use with wildfly-datasources-galleon-pack
+            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack -->
+<!--            <jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>-->
+
+        <properties>
+            <!-- jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+        </properties>
+    </persistence-unit>
+
+<!--    <persistence-unit name="mysql-jpa-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/MySQLDS</jta-data-source>-->
+
+<!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+<!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+<!--&lt;!&ndash;        <jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>&ndash;&gt;-->
+
+<!--        <properties>-->
+<!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+<!--    <persistence-unit name="mariadb-jpa-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/MariaDBDS</jta-data-source>-->
+
+<!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+<!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+<!--&lt;!&ndash;        <jta-data-source>java:jboss/datasources/MariaDBDS</jta-data-source>&ndash;&gt;-->
+
+<!--        <properties>-->
+<!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+
+</persistence>
