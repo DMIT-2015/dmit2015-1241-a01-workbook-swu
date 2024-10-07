@@ -80,23 +80,23 @@
 <!--        </properties>-->
 <!--    </persistence-unit>-->
 
-    <persistence-unit name="h2database-jpa-pu" transaction-type="JTA">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:app/datasources/H2DatabaseDS</jta-data-source>
+<!--    <persistence-unit name="h2database-jpa-pu" transaction-type="JTA">-->
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <jta-data-source>java:app/datasources/H2DatabaseDS</jta-data-source>-->
 
-        <!-- Data source to use with wildfly-datasources-galleon-pack
-            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack -->
-<!--        <jta-data-source>java:jboss/datasources/H2DatabaseDS</jta-data-source>-->
+<!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+<!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+<!--&lt;!&ndash;        <jta-data-source>java:jboss/datasources/H2DatabaseDS</jta-data-source>&ndash;&gt;-->
 
-        <properties>
-            <property name="hibernate.show_sql" value="true" />
+<!--        <properties>-->
+<!--            <property name="hibernate.show_sql" value="true" />-->
 
-            <!-- jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
-            <!-- <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/import-data.sql" /> -->
+<!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+<!--            &lt;!&ndash; <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/import-data.sql" /> &ndash;&gt;-->
 
-        </properties>
-    </persistence-unit>
+<!--        </properties>-->
+<!--    </persistence-unit>-->
 
 <!--    <persistence-unit name="mssql-dmit2015-jpa-pu" transaction-type="JTA">-->
 <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
