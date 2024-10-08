@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 import lombok.Setter;
+import net.datafaker.Faker;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -78,6 +79,15 @@ public class Student implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    // Factory method to create a new Student instance
+    public static Student of(Faker faker) {
+        var student = new Student();
+        student.setFirstName(faker.name().firstName());
+        student.setLastName(faker.name().lastName());
+        student.setEmail(faker.internet().emailAddress());
+        return student;
     }
 
 

@@ -1,16 +1,12 @@
-package dmit2015.persistence;
+package dmit2015.entity;
 
-import dmit2015.entity.Student;
+import dmit2015.persistence.StudentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import net.datafaker.Faker;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @ApplicationScoped
