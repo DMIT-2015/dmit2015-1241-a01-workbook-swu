@@ -8,6 +8,15 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/datasources/OracleHrDS</jta-data-source>
 
+        <class>dmit2015.entity.Department</class>
+        <class>dmit2015.entity.Location</class>
+        <class>dmit2015.entity.Employee</class>
+        <class>dmit2015.entity.Country</class>
+        <class>dmit2015.entity.Job</class>
+        <class>dmit2015.entity.JobHistory</class>
+        <class>dmit2015.entity.Region</class>
+        <class>dmit2015.entity.JobHistoryId</class>
+
         <properties>
             <property name="hibernate.type.preferred_instant_jdbc_type" value="TIMESTAMP"/>
         </properties>

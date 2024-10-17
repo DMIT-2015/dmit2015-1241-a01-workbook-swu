@@ -1,0 +1,117 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Employee Query"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Employee Query</h1>
+
+        <!--Display all messages in FacesContext -->
+        <p:messages id="messages">
+            <p:autoUpdate/>
+        </p:messages>
+        <p:growl id="growl"/>
+
+        <h:form prependId="false">
+            <p:focus context="formPanel"/>
+
+            <p:panel id="formPanel" header="Employee Query Panel">
+                <div class="ui-fluid">
+
+                    <div class="formgroup-inline">
+                        <div class="field grid">
+                            <p:outputLabel for="@next" styleClass="col-fixed" >Department Name</p:outputLabel>
+                            <div class="col">
+<p:autoComplete id="selectedDepartment"
+                value="#{currentEmployeeQueryViewScopedView.selectedDepartment}"
+                completeMethod="#{currentEmployeeQueryViewScopedView.completeDepartment}"
+var="dept" itemLabel="#{dept.departmentName}" itemValue="#{dept}"
+                converter="#{departmentConverter}"
+                forceSelection="true"
+                scrollHeight="250"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <p:commandButton value="Search"
+                                             action="#{currentEmployeeQueryViewScopedView.onSubmit()}"
+                                             update=":messages :growl @form dataTable"
+                            >
+                            </p:commandButton>
+                        </div>
+
+                        <div class="field">
+                            <p:commandButton value="Clear"
+                                             action="#{currentEmployeeQueryViewScopedView.onClear()}"
+                                             update="@form :outputPanel dataTable"
+                                             styleClass="ui-button-secondary"
+                            >
+                            </p:commandButton>
+                        </div>
+                    </div>
+
+                </div>
+
+            </p:panel>
+
+        </h:form>
+
+        <h:form prependId="false">
+            <div class="card">
+                <p:dataTable id="dataTable"
+                             value="#{currentEmployeeQueryViewScopedView.queryResults}"
+                             var="currentItem"
+                             reflow="true"
+                             selection="TODO: optional EL value expression for the object to bind to"
+                             rowKey="#{currentItem.id}"
+                             paginator="true" rows="10"
+                             paginatorPosition="bottom">
+
+                    <p:column headerText="Employee Name">
+                        <h:outputText value="#{currentItem.fullName}" />
+                    </p:column>
+
+                    <p:column headerText="Hire Date">
+                        <h:outputText value="#{currentItem.hireDate}">
+                            <f:convertDateTime type="localDate" pattern="MM/dd/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Salary">
+                        <h:outputText value="#{currentItem.salary}">
+                            <f:convertNumber type="currency" locale="en_CA"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Department">
+                        <h:outputText value="#{currentItem.department.departmentName}" />
+                    </p:column>
+
+                    <p:column headerText="Manager">
+                        <h:outputText value="#{(empty currentItem.manager) ? 'No Manager' : currentItem.manager.fullName}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
