@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="h2database-jpa-pu" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/datasources/H2DatabaseDS</jta-data-source>
+
+        <!-- Data source to use with wildfly-datasources-galleon-pack
+            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack -->
+        <!--        <jta-data-source>java:jboss/datasources/H2DatabaseDS</jta-data-source>-->
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.show_sql" value="true" />
+
+            <!-- jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!-- <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/import-data.sql" /> -->
+
+        </properties>
+    </persistence-unit>
+
+    <!--    <persistence-unit name="mssql-dmit2015-jpa-pu" transaction-type="JTA">-->
+    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+    <!--        <jta-data-source>java:app/datasources/MSSQLServerDS</jta-data-source>-->
+
+    <!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+    <!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+    <!--    &lt;!&ndash;        <jta-data-source>java:jboss/datasources/MSSQLServerDS</jta-data-source>&ndash;&gt;-->
+
+    <!--        <properties>-->
+    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>-->
+    <!--            &lt;!&ndash; database.action: drop-and-create, create, update, none &ndash;&gt;-->
+    <!--            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+    <!--        </properties>-->
+    <!--    </persistence-unit>-->
+
+    <!--    <persistence-unit name="oracle-jpa-user2015-pu" transaction-type="JTA">-->
+    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+    <!--        <jta-data-source>java:app/datasources/OracleDS</jta-data-source>-->
+
+    <!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+    <!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+    <!--&lt;!&ndash;            <jta-data-source>java:jboss/datasources/OracleDS</jta-data-source>&ndash;&gt;-->
+
+    <!--        <properties>-->
+    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>-->
+    <!--            <property name="hibernate.type.preferred_instant_jdbc_type" value="TIMESTAMP"/>-->
+
+    <!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+    <!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+    <!--        </properties>-->
+    <!--    </persistence-unit>-->
+
+    <!--    <persistence-unit name="postgresql-jpa-pu" transaction-type="JTA">-->
+    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+    <!--        <jta-data-source>java:app/datasources/PostgreSQLDS</jta-data-source>-->
+
+    <!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+    <!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+    <!--&lt;!&ndash;            <jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>&ndash;&gt;-->
+
+    <!--        <properties>-->
+    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>-->
+    <!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+    <!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+    <!--        </properties>-->
+    <!--    </persistence-unit>-->
+
+    <!--    <persistence-unit name="mysql-jpa-pu" transaction-type="JTA">-->
+    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+    <!--        <jta-data-source>java:app/datasources/MySQLDS</jta-data-source>-->
+
+    <!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+    <!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+    <!--&lt;!&ndash;        <jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>&ndash;&gt;-->
+
+    <!--        <properties>-->
+    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+
+    <!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+    <!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+    <!--        </properties>-->
+    <!--    </persistence-unit>-->
+
+    <!--    <persistence-unit name="mariadb-jpa-pu" transaction-type="JTA">-->
+    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+    <!--        <jta-data-source>java:app/datasources/MariaDBDS</jta-data-source>-->
+
+    <!--        &lt;!&ndash; Data source to use with wildfly-datasources-galleon-pack-->
+    <!--            https://github.com/wildfly-extras/wildfly-datasources-galleon-pack &ndash;&gt;-->
+    <!--&lt;!&ndash;        <jta-data-source>java:jboss/datasources/MariaDBDS</jta-data-source>&ndash;&gt;-->
+
+    <!--        <properties>-->
+    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>-->
+
+    <!--            &lt;!&ndash; jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none &ndash;&gt;-->
+    <!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
+    <!--        </properties>-->
+    <!--    </persistence-unit>-->
+
+</persistence>

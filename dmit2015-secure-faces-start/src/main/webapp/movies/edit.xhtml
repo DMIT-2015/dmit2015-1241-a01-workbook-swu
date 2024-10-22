@@ -1,0 +1,95 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="http://primefaces.org/ui"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="Edit Movie"/>
+
+    <ui:define name="maincontent">
+
+        <h1>Edit Movie</h1>
+
+        <p:messages id="messages"/>
+
+        <h:form prependId="false">
+
+            <p:panel header="Movie Details">
+                <div class="ui-fluid formgrid grid">
+                    <div class="field col-12">
+                        <label for="title">Title</label>
+                        <p:inputText
+                                id="title"
+                                type="text"
+                                value="#{currentMovieEditView.existingMovie.title}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="genre">Genre</label>
+                        <p:inputText
+                                id="genre"
+                                type="text"
+                                value="#{currentMovieEditView.existingMovie.genre}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="rating">Rating</label>
+                        <p:inputText
+                                id="rating"
+                                type="text"
+                                value="#{currentMovieEditView.existingMovie.rating}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="price">Price</label>
+                        <p:inputText
+                                id="price"
+                                type="text"
+                                value="#{currentMovieEditView.existingMovie.price}">
+                        </p:inputText>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="releaseDate">Release Date</label>
+                        <p:datePicker
+                                id="releaseDate"
+                                showIcon="true"
+                                pattern="MMM d, yyyy"
+                                value="#{currentMovieEditView.existingMovie.releaseDate}">
+                        </p:datePicker>
+                    </div>
+
+                </div>
+
+                <p:commandButton id="updateButton"
+                                 value="Save"
+                                 icon="pi pi-save"
+                                 action="#{currentMovieEditView.onUpdate()}"
+                                 update=":messages @form"/>
+
+            </p:panel>
+
+
+            <p>
+                <p:link id="backToListLink" outcome="index" value="Back to List">
+                </p:link>
+            </p>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
