@@ -17,7 +17,7 @@
             <property name="hibernate.show_sql" value="true" />
 
             <!-- jakarta.persistence.schema-generation.database.action: drop-and-create, create, update, none -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <!-- <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/import-data.sql" /> -->
 
         </properties>

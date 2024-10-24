@@ -1,15 +1,12 @@
 package dmit2015.faces;
 
 import dmit2015.entity.Movie;
-import dmit2015.repository.MovieRepository;
-
 import dmit2015.service.MovieService;
-import lombok.Getter;
-import org.omnifaces.util.Messages;
-
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
+import org.omnifaces.util.Messages;
 
 @Named("currentMovieCreateView")
 @RequestScoped
@@ -27,6 +24,8 @@ public class MovieCreateView {
             _movieService.addMovie(newMovie);
             Messages.addFlashGlobalInfo("Create was successful. {0}", newMovie.getId());
             nextPage = "index?faces-redirect=true";
+        } catch (RuntimeException ex) {
+            Messages.addGlobalWarn(ex.getMessage());
         } catch (Exception e) {
             Messages.addGlobalError("Create was not successful. {0}", e.getMessage());
         }

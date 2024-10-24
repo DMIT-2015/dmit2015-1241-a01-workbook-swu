@@ -27,6 +27,9 @@ public interface MovieRepository {
     @Find
     List<Movie> findAll(Sort<Movie> sort);
 
+    @Find
+    List<Movie> findAllBy(String username, Sort<Movie> sort);
+
     @Query("select count(m) from Movie m")
     long count();
 

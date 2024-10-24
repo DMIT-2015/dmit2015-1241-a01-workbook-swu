@@ -233,19 +233,17 @@
                         <layer>cloud-server</layer> <!-- includes ee-security -->
                         <layer>jsf</layer>
                         <layer>microprofile-platform</layer>
-                        <!-- TODO: Add layer for ee-security and undertow-https -->
                         <layer>undertow-https</layer>
 
                     </layers>
-                    <!-- TODO: add cli-sessions to run script file to enable EE security-->
-<cli-sessions>
-    <cli-session>
-        <script-files>
-            <script>./wildfly-scripts/enable-oneway-https.cli</script>
-            <script>./wildfly-scripts/configure-elytron.cli</script>
-        </script-files>
-    </cli-session>
-</cli-sessions>
+                    <cli-sessions>
+                        <cli-session>
+                            <script-files>
+                                <script>./wildfly-scripts/enable-oneway-https.cli</script>
+                                <script>./wildfly-scripts/configure-elytron.cli</script>
+                            </script-files>
+                        </cli-session>
+                    </cli-sessions>
 
                     <excluded-layers>
                         <layer>deployment-scanner</layer>

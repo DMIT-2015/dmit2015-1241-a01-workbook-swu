@@ -1,19 +1,16 @@
 package dmit2015.faces;
 
 import dmit2015.entity.Movie;
-import dmit2015.repository.MovieRepository;
-
 import dmit2015.service.MovieService;
-import lombok.Getter;
-import lombok.Setter;
-import org.omnifaces.util.Faces;
-import org.omnifaces.util.Messages;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
+import org.omnifaces.util.Faces;
+import org.omnifaces.util.Messages;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -53,6 +50,8 @@ public class MovieDeleteView implements Serializable {
             _movieService.deleteMovie(existingMovie);
             Messages.addFlashGlobalInfo("Delete was successful.");
             nextPage = "index?faces-redirect=true";
+        } catch (RuntimeException ex) {
+            Messages.addGlobalWarn(ex.getMessage());
         } catch (Exception e) {
             Messages.addGlobalError("Delete not successful.");
         }
