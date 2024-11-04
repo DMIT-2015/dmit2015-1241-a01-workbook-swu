@@ -1,8 +1,8 @@
 package dmit2015.resource;
 
 import common.validator.BeanValidator;
-import dmit2015.entity.TodoItem;
-import dmit2015.repository.TodoItemRepository;
+import dmit2015.entity.Region;
+import dmit2015.repository.RegionRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
@@ -19,31 +19,31 @@ import java.net.URI;
  * perform CRUD operations on Jakarta Persistence entity.
  */
 @ApplicationScoped
-@Path("TodoItems")                    // All methods of this class are associated this URL path
+@Path("Regions")                    // All methods of this class are associated this URL path
 @Consumes(MediaType.APPLICATION_JSON)    // All methods this class accept only JSON format data
 @Produces(MediaType.APPLICATION_JSON)    // All methods returns data that has been converted to JSON format
-public class TodoItemResource {
+public class RegionResource {
 
     @Inject
-    private TodoItemRepository _todoItemRepository;
+    private RegionRepository _regionRepository;
 
     @GET    // This method only accepts HTTP GET requests.
-    public Response findAllTodoItemsTodoItems() {
-        return Response.ok(_todoItemRepository.findAll()).build();
+    public Response findAllRegionsRegions() {
+        return Response.ok(_regionRepository.findAll()).build();
     }
 
     @Path("{id}")
     @GET    // This method only accepts HTTP GET requests.
-    public Response findTodoItemById(@PathParam("id") Long id) {
-        TodoItem existingTodoItem = _todoItemRepository.findById(id).orElseThrow(NotFoundException::new);
+    public Response findRegionById(@PathParam("id") Long id) {
+        Region existingRegion = _regionRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        return Response.ok(existingTodoItem).build();
+        return Response.ok(existingRegion).build();
     }
 
     @POST    // This method only accepts HTTP POST requests.
-    public Response createTodoItemTodoItem(TodoItem newTodoItem, @Context UriInfo uriInfo) {
+    public Response createRegionRegion(Region newRegion, @Context UriInfo uriInfo) {
 
-        String errorMessage = BeanValidator.validateBean(newTodoItem);
+        String errorMessage = BeanValidator.validateBean(newRegion);
         if (errorMessage != null) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -52,8 +52,8 @@ public class TodoItemResource {
         }
 
         try {
-            // Persist the new TodoItem into the database
-            _todoItemRepository.add(newTodoItem);
+            // Persist the new Region into the database
+            _regionRepository.add(newRegion);
         } catch (Exception ex) {
             // Return a HTTP status of "500 Internal Server Error" containing the exception message
             return Response.
@@ -64,11 +64,11 @@ public class TodoItemResource {
 
         // userInfo is injected via @Context parameter to this method
         URI location = uriInfo.getAbsolutePathBuilder()
-                .path(String.valueOf(newTodoItem.getId()))
+                .path(String.valueOf(newRegion.getId()))
                 .build();
 
         // Set the location path of the new entity with its identifier
-        // Returns an HTTP status of "201 Created" if the TodoItem was successfully persisted
+        // Returns an HTTP status of "201 Created" if the Region was successfully persisted
         return Response
                 .created(location)
                 .build();
@@ -76,12 +76,12 @@ public class TodoItemResource {
 
     @PUT            // This method only accepts HTTP PUT requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response updateTodoItemTodoItem(@PathParam("id") Long id, TodoItem updatedTodoItem) {
-        if (!id.equals(updatedTodoItem.getId())) {
+    public Response updateRegionRegion(@PathParam("id") Long id, Region updatedRegion) {
+        if (!id.equals(updatedRegion.getId())) {
             throw new BadRequestException();
         }
 
-        String errorMessage = BeanValidator.validateBean(updatedTodoItem);
+        String errorMessage = BeanValidator.validateBean(updatedRegion);
         if (errorMessage != null) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -89,15 +89,13 @@ public class TodoItemResource {
                     .build();
         }
 
-        TodoItem existingTodoItem = _todoItemRepository
+        Region existingRegion = _regionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
-        existingTodoItem.setVersion(updatedTodoItem.getVersion());
-        existingTodoItem.setTask(updatedTodoItem.getTask());
-        existingTodoItem.setDone(updatedTodoItem.isDone());
+        existingRegion.setRegionName(updatedRegion.getRegionName());
 
         try {
-            _todoItemRepository.update(existingTodoItem);
+            _regionRepository.update(id, existingRegion);
         } catch (OptimisticLockException ex) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -112,19 +110,19 @@ public class TodoItemResource {
         }
 
         // Returns an HTTP status "200 OK" and include in the body of the response the object that was updated
-        return Response.ok(existingTodoItem).build();
+        return Response.ok(existingRegion).build();
     }
 
     @DELETE            // This method only accepts HTTP DELETE requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response deleteTodoItem(@PathParam("id") Long id) {
+    public Response deleteRegion(@PathParam("id") Long id) {
 
-        TodoItem existingTodoItem = _todoItemRepository
+        Region existingRegion = _regionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
 
         try {
-            _todoItemRepository.delete(existingTodoItem);    // Removes the TodoItem from being persisted
+            _regionRepository.delete(existingRegion);    // Removes the Region from being persisted
         } catch (Exception ex) {
             // Return a HTTP status of "500 Internal Server Error" containing the exception message
             return Response

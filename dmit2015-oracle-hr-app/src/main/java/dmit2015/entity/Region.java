@@ -1,5 +1,6 @@
 package dmit2015.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Region {
     @Column(name = "REGION_NAME", length = 25)
     private String regionName;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "region")
     private Set<Country> countries = new LinkedHashSet<>();
 

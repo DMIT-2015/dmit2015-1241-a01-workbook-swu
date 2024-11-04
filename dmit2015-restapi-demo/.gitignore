@@ -24,7 +24,7 @@ target/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
+/swagger-ui/
 /nbdist/
 /.nb-gradle/
 build/

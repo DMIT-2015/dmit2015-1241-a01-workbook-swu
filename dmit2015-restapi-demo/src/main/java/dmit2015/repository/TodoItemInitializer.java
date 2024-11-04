@@ -1,6 +1,7 @@
 package dmit2015.repository;
 
 import dmit2015.entity.TodoItem;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
@@ -8,6 +9,7 @@ import jakarta.inject.Inject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -19,6 +21,38 @@ public class TodoItemInitializer {
     @Inject
     private TodoItemRepository _todoItemRepository;
 
+    @PostConstruct
+    void init() {
+        _logger.info("@PostConstruct init method");
+
+        if (_todoItemRepository.count() == 0) {
+            try {
+                TodoItem todo1 = new TodoItem();
+                todo1.setTask("Create JAX-RS demo project");
+                todo1.setDone(true);
+                todo1.setCreateTime(LocalDateTime.now());
+                _todoItemRepository.add(todo1);
+
+                TodoItem todo2 = new TodoItem();
+                todo2.setTask("Run and verify all Integration Test pass");
+                todo2.setDone(false);
+                todo2.setCreateTime(LocalDateTime.now());
+                _todoItemRepository.add(todo2);
+
+                TodoItem todo3 = new TodoItem();
+                todo3.setTask("Create DTO version of TodoResource");
+                todo3.setDone(false);
+                todo3.setCreateTime(LocalDateTime.now());
+                _todoItemRepository.add(todo3);
+
+
+            } catch (Exception ex) {
+                _logger.fine(ex.getMessage());
+            }
+
+            _logger.info("Created " + _todoItemRepository.count() + " records.");
+        }
+    }
 
     /**
      * Using the combination of `@Observes` and `@Initialized` annotations, you can
@@ -37,34 +71,34 @@ public class TodoItemInitializer {
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
         _logger.info("Initializing todoItems");
 
-        if (_todoItemRepository.count() == 0) {
-
-            // You could hard code the test data
-            try {
-                // TODO: Create a new entity instance
-                // TODO: Set the properties of the entity instance
-                // TODO: Add the entity instance to the JPA repository
-                TodoItem todo1 = new TodoItem();
-                todo1.setTask("Create JAX-RS demo project");
-                todo1.setDone(true);
-                _todoItemRepository.add(todo1);
-
-                TodoItem todo2 = new TodoItem();
-                todo2.setTask("Run and verify all Integration Test pass");
-                todo2.setDone(false);
-                _todoItemRepository.add(todo2);
-
-                TodoItem todo3 = new TodoItem();
-                todo3.setTask("Create DTO version of TodoResource");
-                todo3.setDone(false);
-                _todoItemRepository.add(todo3);
-
-
-            } catch (Exception ex) {
-                _logger.fine(ex.getMessage());
-            }
-
-            _logger.info("Created " + _todoItemRepository.count() + " records.");
-        }
+//        if (_todoItemRepository.count() == 0) {
+//
+//            // You could hard code the test data
+//            try {
+//                // TODO: Create a new entity instance
+//                // TODO: Set the properties of the entity instance
+//                // TODO: Add the entity instance to the JPA repository
+//                TodoItem todo1 = new TodoItem();
+//                todo1.setTask("Create JAX-RS demo project");
+//                todo1.setDone(true);
+//                _todoItemRepository.add(todo1);
+//
+//                TodoItem todo2 = new TodoItem();
+//                todo2.setTask("Run and verify all Integration Test pass");
+//                todo2.setDone(false);
+//                _todoItemRepository.add(todo2);
+//
+//                TodoItem todo3 = new TodoItem();
+//                todo3.setTask("Create DTO version of TodoResource");
+//                todo3.setDone(false);
+//                _todoItemRepository.add(todo3);
+//
+//
+//            } catch (Exception ex) {
+//                _logger.fine(ex.getMessage());
+//            }
+//
+//            _logger.info("Created " + _todoItemRepository.count() + " records.");
+//        }
     }
 }

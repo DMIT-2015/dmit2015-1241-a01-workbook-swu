@@ -24,7 +24,7 @@ public class Country {
     @Column(name = "COUNTRY_NAME", length = 60)
     private String countryName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "REGION_ID")
     private dmit2015.entity.Region region;
