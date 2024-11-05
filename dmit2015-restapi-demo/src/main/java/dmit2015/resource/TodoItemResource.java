@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 /**
  * This Jakarta RESTful Web Services root resource class provides common REST API endpoints to
@@ -53,6 +54,7 @@ public class TodoItemResource {
 
         try {
             // Persist the new TodoItem into the database
+            newTodoItem.setCreateTime(LocalDateTime.now());
             _todoItemRepository.add(newTodoItem);
         } catch (Exception ex) {
             // Return a HTTP status of "500 Internal Server Error" containing the exception message
@@ -95,9 +97,10 @@ public class TodoItemResource {
         existingTodoItem.setVersion(updatedTodoItem.getVersion());
         existingTodoItem.setTask(updatedTodoItem.getTask());
         existingTodoItem.setDone(updatedTodoItem.isDone());
+        existingTodoItem.setUpdateTime(LocalDateTime.now());
 
         try {
-            _todoItemRepository.update(existingTodoItem);
+            _todoItemRepository.update(id, existingTodoItem);
         } catch (OptimisticLockException ex) {
             return Response
                     .status(Response.Status.BAD_REQUEST)

@@ -18,7 +18,7 @@ public interface TodoItemDataRepository {
     List<TodoItem> findAll();
 
     @Update
-    TodoItem update(Long id, TodoItem updatedTodoItem);
+    TodoItem update(TodoItem updatedTodoItem);
 
     @Delete
     void delete(TodoItem existingTodoItem);

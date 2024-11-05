@@ -111,7 +111,7 @@ public class TodoItemDtoResource {
         existingTodoItem.setDone(updatedTodoItem.isDone());
 
         try {
-            _todoItemRepository.update(existingTodoItem);
+            _todoItemRepository.update(id, existingTodoItem);
         } catch (OptimisticLockException ex) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
