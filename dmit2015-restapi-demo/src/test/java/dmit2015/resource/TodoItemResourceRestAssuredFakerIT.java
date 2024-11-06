@@ -59,8 +59,7 @@ public class TodoItemResourceRestAssuredFakerIT {
         // Arrange: Set up the initial state
         var currentTodoItem = new TodoItem();
         currentTodoItem.setTask(faker.pokemon().move()) ;
-//        currentTodoItem.setProperty2(faker.providerName().methodName());
-//        currentTodoItem.setProperty3(faker.providerName().methodName());
+        currentTodoItem.setDone(false);
 
         // Act & Assert
         try (Jsonb jsonb = JsonbBuilder.create()) {
@@ -84,7 +83,6 @@ public class TodoItemResourceRestAssuredFakerIT {
         var currentTodoItem = new TodoItem();
         currentTodoItem.setTask(faker.pokemon().move()) ;
         currentTodoItem.setDone(false);
-//        currentTodoItem.setProperty3(faker.providerName().methodName());
 
        // Act & Assert
         try (Jsonb jsonb = JsonbBuilder.create()) {
@@ -106,7 +104,6 @@ public class TodoItemResourceRestAssuredFakerIT {
                 .body("id", notNullValue())
                 .body("task", equalTo(currentTodoItem.getTask()))
                 .body("done", equalTo(currentTodoItem.isDone()))
-//                .body("property3", equalTo(currentTodoItem.getProperty3()))
                 ;
         }
 
@@ -122,8 +119,7 @@ public class TodoItemResourceRestAssuredFakerIT {
             for (int index = 0; index < 3; index++) {
                 var currentTodoItem = new TodoItem();
                 currentTodoItem.setTask(faker.pokemon().move()) ;
-//                currentTodoItem.setProperty2(faker.providerName().methodName());
-//                currentTodoItem.setProperty3(faker.providerName().methodName());
+                currentTodoItem.setDone(false);
 
                 todoItems.add(currentTodoItem);
 
@@ -144,8 +140,7 @@ public class TodoItemResourceRestAssuredFakerIT {
                     .statusCode(200)
                     .body("size()", greaterThan(0))
                     .body("task", hasItems(todoItems.getFirst().getTask(), todoItems.getLast().getTask()))
-//                    .body("property2", hasItems(todoItems.getFirst().getProperty2(), todoItems.getLast().getProperty2()))
-//                    .body("property3", hasItems(todoItems.getFirst().getProperty3(), todoItems.getLast().getProperty3()))
+                    .body("done", hasItems(todoItems.getFirst().isDone(), todoItems.getLast().isDone()))
                     ;
 
         }
@@ -158,13 +153,11 @@ public class TodoItemResourceRestAssuredFakerIT {
         // Arrange: Set up the initial state
         var createTodoItem = new TodoItem();
         createTodoItem.setTask(faker.pokemon().move()) ;
-//        createTodoItem.setProperty2(faker.providerName().methodName());
-//        createTodoItem.setProperty3(faker.providerName().methodName());
+        createTodoItem.setDone(false);
 
         var updateTodoItem = new TodoItem();
         updateTodoItem.setTask(faker.pokemon().move()) ;
-//        updateTodoItem.setProperty2(faker.providerName().methodName());
-//        updateTodoItem.setProperty2(faker.providerName().methodName());
+        updateTodoItem.setDone(true);
 
         try (Jsonb jsonb = JsonbBuilder.create()) {
             String createJsonBody = jsonb.toJson(createTodoItem);
@@ -189,8 +182,7 @@ public class TodoItemResourceRestAssuredFakerIT {
                 .statusCode(200)
                 .body("id", equalTo(entityId.intValue()))
                 .body("task", equalTo(updateTodoItem.getTask()))
-//                .body("property2", equalTo(updateTodoItem.getProperty2()))
-//                .body("property3", equalTo(updateTodoItem.getProperty3()))
+                .body("done", equalTo(updateTodoItem.isDone()))
             ;
         }
 
