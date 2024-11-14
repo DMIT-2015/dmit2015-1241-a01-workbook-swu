@@ -1,12 +1,14 @@
 ### Get all TodoItems
 GET http://localhost:8090/restapi/TodoItemDtos
+Authorization: Bearer {{access_token}}
 
 ### Get a single TodoItem with an id of 1
-GET http://localhost:8090/restapi/TodoItems/1
+GET http://localhost:8090/restapi/TodoItemDtos/1
 
 ### POST a new TodoItem with valid data
-POST http://localhost:8090/restapi/TodoItems
+POST http://localhost:8090/restapi/TodoItemDtos
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "task": "Start DMIT2015 Assignment 6",
@@ -14,7 +16,7 @@ Content-Type: application/json
 }
 
 ### Post a new TodoItem with invalid data
-POST http://localhost:8090/restapi/TodoItems
+POST http://localhost:8090/restapi/TodoItemDtos
 Content-Type: application/json
 
 {
@@ -23,10 +25,10 @@ Content-Type: application/json
 }
 
 ### Get a single TodoItem with an id of 4
-GET http://localhost:8090/restapi/TodoItems/4
+GET http://localhost:8090/restapi/TodoItemDtos/4
 
 ### Update TodoItem with an id of 4 with valid data
-PUT http://localhost:8090/restapi/TodoItems/4
+PUT http://localhost:8090/restapi/TodoItemDtos/4
 Content-Type: application/json
 
 {
@@ -37,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Delete an TodoItem with an id of 2
-DELETE http://localhost:8090/restapi/TodoItems/2
+DELETE http://localhost:8090/restapi/TodoItemDtos/2
 
 ### Delete an TodoItem with an id of 4
-DELETE http://localhost:8090/restapi/TodoItems/4
+DELETE http://localhost:8090/restapi/TodoItemDtos/4

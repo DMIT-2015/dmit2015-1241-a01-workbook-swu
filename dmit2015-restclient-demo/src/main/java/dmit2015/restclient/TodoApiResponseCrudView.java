@@ -21,6 +21,9 @@ import java.util.List;
 public class TodoApiResponseCrudView implements Serializable {
 
     @Inject
+    private LoginSession _loginSession;
+
+    @Inject
     @RestClient
     private TodoApiResponseMpRestClient _todoApiResponseMpRestClient;
 
@@ -35,12 +38,13 @@ public class TodoApiResponseCrudView implements Serializable {
     @Setter
     private Long editId;
 
-    @PostConstruct  // After @Inject is complete
+//    @PostConstruct  // After @Inject is complete
     public void init() {
+        String authorizationHeader = _loginSession.getAuthorization();
         try {
-            todoApiResponseList = _todoApiResponseMpRestClient.findAll();
+            todoApiResponseList = _todoApiResponseMpRestClient.findAll(_loginSession.getAuthorization());
         } catch (Exception ex) {
-            Messages.addGlobalError(ex.getMessage());
+//            Messages.addGlobalError(ex.getMessage());
         }
     }
 
@@ -50,23 +54,22 @@ public class TodoApiResponseCrudView implements Serializable {
     }
 
     public void onSave() {
+        String authorizationHeader = _loginSession.getAuthorization();
         if (editId == null) {
             try {
-                Response response = _todoApiResponseMpRestClient.create(selectedTodoApiResponse);
+                Response response = _todoApiResponseMpRestClient.create(authorizationHeader, selectedTodoApiResponse);
                 String location = response.getHeaderString("Location");
                 String idValue = location.substring(location.lastIndexOf("/") + 1);
                 Messages.addFlashGlobalInfo("Create was successful. {0}", idValue);
-                todoApiResponseList = _todoApiResponseMpRestClient.findAll();
+                todoApiResponseList = _todoApiResponseMpRestClient.findAll(authorizationHeader);
             } catch (Exception e) {
-                e.printStackTrace();
                 Messages.addGlobalError("Create was not successful. {0}", e.getMessage());
             }
         } else {
             try {
-                _todoApiResponseMpRestClient.update(editId, selectedTodoApiResponse);
+                _todoApiResponseMpRestClient.update(authorizationHeader, editId, selectedTodoApiResponse);
                 Messages.addFlashGlobalInfo("Update was successful.");
             } catch (Exception e) {
-                e.printStackTrace();
                 Messages.addGlobalError("Update was not successful.");
             }
         }
@@ -76,15 +79,16 @@ public class TodoApiResponseCrudView implements Serializable {
     }
 
     public void onDelete() {
+        String authorizationHeader = _loginSession.getAuthorization();
         try {
-            _todoApiResponseMpRestClient.delete(editId);
+            _todoApiResponseMpRestClient.delete(authorizationHeader, editId);
             editId = null;
             selectedTodoApiResponse = null;
             Messages.addGlobalInfo("Delete was successful.");
-            todoApiResponseList = _todoApiResponseMpRestClient.findAll();
+            todoApiResponseList = _todoApiResponseMpRestClient.findAll(authorizationHeader
+            );
             PrimeFaces.current().ajax().update("form:messages", "form:dt-TodoApiResponses");
         } catch (Exception e) {
-            e.printStackTrace();
             Messages.addGlobalError("Delete not successful.");
         }
     }

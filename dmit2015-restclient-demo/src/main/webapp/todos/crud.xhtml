@@ -20,10 +20,16 @@
               value=".TodoApiResponses-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
 
     <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewParam name="dummy" />
+            <f:event type="postInvokeAction" listener="#{currentTodoApiResponseCrudView.init}" />
+            <f:viewAction action="#{loginSession.checkForToken}" />
+        </f:metadata>
 
         <div class="card">
             <h:form id="form">
-                <p:growl id="messages" showDetail="true"/>
+                <p:messages id="messages" />
+                <p:growl id="growl" showDetail="true"/>
 
                 <p:toolbar>
                     <p:toolbarGroup>

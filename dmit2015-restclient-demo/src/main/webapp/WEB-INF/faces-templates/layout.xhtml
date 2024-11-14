@@ -49,12 +49,17 @@
 
                 <p:menuitem value="Todo JS" url="#{request.contextPath}/todoItems.html"/>
 
-                <!--                <p:submenu label="Students" icon="pi pi-file">-->
-                <!--                    <p:menuitem value="List" icon="pi pi-list"-->
-                <!--                                url="#{request.contextPath}/students/index.xhtml"/>-->
-                <!--                    <p:menuitem value="Create" icon="pi pi-plus"-->
-                <!--                                url="#{request.contextPath}/students/create.xhtml"/>-->
-                <!--                </p:submenu>-->
+                <c:if test="${empty loginSession.username}">
+                    <p:menuitem
+                            value="Login"
+                            action="/login" />
+                </c:if>
+                <c:if test="${not empty loginSession.username}">
+                    <p:menuitem
+                            value="Logout #{loginSession.username}"
+                            action="#{keycloakLogout.submit}" />
+                </c:if>
+
 
             </p:menubar>
         </h:form>

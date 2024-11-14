@@ -5,6 +5,7 @@ import dmit2015.entity.TodoItem;
 import dmit2015.dto.TodoItemDto;
 import dmit2015.dto.TodoItemMapper;
 import dmit2015.repository.TodoItemRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Consumes(MediaType.APPLICATION_JSON)
 // All methods in this class expects method parameters to contain data in JSON format
 @Produces(MediaType.APPLICATION_JSON)    // All methods in this class returns data in JSON format
+@RolesAllowed({"ActiveStudent","Executive","Sales"})
 public class TodoItemDtoResource {
 
     @Inject

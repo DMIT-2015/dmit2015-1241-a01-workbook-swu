@@ -4,6 +4,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.*;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.util.List;
@@ -38,25 +39,26 @@ import java.util.List;
  *      TodoApiResponseMpRestClient _todoapiresponseMpRestClient = RestClientBuilder.newBuilder().baseUri(apiURi).build(TodoApiResponseMpRestClient.class);* }
  */
 @RequestScoped
+@RegisterProvider(TodoItemRestApiResponseMapper.class)
 @RegisterRestClient (baseUri = "http://localhost:8090/restapi/TodoItemDtos")
 public interface TodoApiResponseMpRestClient {
 
     @POST
-    Response create(TodoApiResponse newTodoApiResponse);
+    Response create(@HeaderParam("Authorization") String authorizationHeader,TodoApiResponse newTodoApiResponse);
 
     @GET
-    List<TodoApiResponse> findAll();
+    List<TodoApiResponse> findAll(@HeaderParam("Authorization") String authorizationHeader);
 
     @GET
     @Path("/{id}")
-    TodoApiResponse findById(@PathParam("id") Long id);
+    TodoApiResponse findById(@HeaderParam("Authorization") String authorizationHeader,@PathParam("id") Long id);
 
     @PUT
     @Path("/{id}")
-    TodoApiResponse update(@PathParam("id") Long id, TodoApiResponse updatedTodoApiResponse);
+    TodoApiResponse update(@HeaderParam("Authorization") String authorizationHeader,@PathParam("id") Long id, TodoApiResponse updatedTodoApiResponse);
 
     @DELETE
     @Path("/{id}")
-    void delete(@PathParam("id") Long id);
+    void delete(@HeaderParam("Authorization") String authorizationHeader,@PathParam("id") Long id);
 
 }

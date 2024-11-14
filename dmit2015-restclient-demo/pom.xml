@@ -118,6 +118,14 @@
             <version>3.0.4</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -157,6 +165,7 @@
                         <layer>cloud-server</layer>
                         <layer>microprofile-config</layer>
                         <layer>microprofile-rest-client</layer>
+                        <layer>microprofile-jwt</layer>
                         <layer>jsf</layer>
                     </layers>
                     <excluded-layers>

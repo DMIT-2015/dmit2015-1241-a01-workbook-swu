@@ -170,6 +170,15 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>6.1</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -235,6 +244,7 @@
                         <layer>microprofile-config</layer>
                         <layer>microprofile-rest-client</layer>
                         <layer>microprofile-openapi</layer>
+                        <layer>microprofile-jwt</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
